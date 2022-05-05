@@ -67,7 +67,6 @@
 	    ?></a>
 
     </div>
-  </header>
 
   <section id="hero" class="d-flex align-items-center justify-content-center">
     <div class="container" data-aos="fade-up">

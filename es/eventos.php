@@ -52,7 +52,12 @@
 	mysqli_set_charset($conexion,"utf-8");
 ?>
 
-
+<script>
+    function redirigir(id){      
+    
+      window.location.href = "evento_detalles.php" + "?w1=" + id; 
+    }
+  </script>
 
 <body>
 
@@ -86,16 +91,8 @@
   </header>
 
 
-  <script>
-    function redirigir(id){
-
-      
-      <?php $_SESSION["id_evento"] = "<script>id</script>";?>
-      
-      window.location.href = "evento_detalles.php";
-    }
-  </script>
-
+  
+  
   <section id="hero" style ="height:30px" class="d-flex align-items-center justify-content-center">
     
   </section>
@@ -117,13 +114,13 @@
             </table>
             
               <?php
-                $DateTime = date('d-m-Y h:i:s a', time());  
+                $DateTime = date('Y-m-d h:i:s a', time());  
                 echo "La fecha y hora actual es $DateTime.";
 
                 $consulta="SELECT id, nombre, descripcion_breve, fecha_evento
                 FROM eventos
-                ";
-                /*WHERE fecha_evento > $DateTime*/	
+                WHERE fecha_evento > '$DateTime'";
+                
                 $resultados=mysqli_query($conexion, $consulta);	
 
                 if($resultados==false){
@@ -133,7 +130,7 @@
                   echo "<br><table border='1'>";
                   while($fila=mysqli_fetch_array($resultados)){
                     echo "<tr>
-                          <td class='col-4'>Foto</td>
+                          <td class='col-4'><img src='ver_imagen.php?id=".$fila['id']."' alt='Imagen del evento.'</img></td>
                           <td class='col-8'>
                             <br><strong>" . $fila['nombre'] . "</strong><br>
                             <br>". $fila['descripcion_breve'] ."
@@ -161,6 +158,8 @@
       </div>
 
   </main>
+
+ 
 
   <footer id="footer">
     <div class="footer-top">
@@ -233,6 +232,8 @@
 
   <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
   <div id="preloader"></div>
+
+  
 
 
   <script src="../assets/vendor/jquery/jquery.min.js"></script>

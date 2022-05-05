@@ -108,9 +108,11 @@
                   }
               ?>
           
-              <div class="text-center"><button type="submit">Iniciar sesión</button></div><br><br>
-			  <a href="registro.html">¡Registrate!</a><br>
-			  <a href="cambiar_contrasena.php">¡Has olvidado tu contraseña!</a>
+              <div class="text-center">
+                <button type="submit" class="inicio_sesion scrollto"style="background-color: transparent;">Iniciar sesión</button>
+              </div><br><br>
+              <a href="registro.html">¡Registrate!</a><br>
+              <a href="cambiar_contrasena.php">¡Has olvidado tu contraseña!</a>
             </form>
         
           </div>

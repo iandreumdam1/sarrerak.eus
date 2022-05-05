@@ -46,6 +46,7 @@
 					$_SESSION["apellido1"] = $user["apellido1"];
 					$_SESSION["apellido2"] = $user["apellido2"];
 					$_SESSION["correo_electronico"] = $user["correo_electronico"];
+					$_SESSION["tipo_usuario"] = $user["tipo"];
 					//Redirigimos a la página protegida que será el listado de nuestros mensajes
 					header("Location: pagina_personal.php");
 					

@@ -33,11 +33,10 @@
 </head>
 
 <?php
-	session_start();
-	if(!isset($_SESSION["nombre_usuario_id"])){
-		header("Location:iniciar_sesion.php");
-	}
+  session_start();
+
 ?>
+
 
 
 <body>
@@ -72,75 +71,118 @@
   </header>
 
 
+  
+  <?php
+  $db_host="localhost";
+	$db_nombrebd="sarrerak";
+	$db_usuario="root";
+	$db_contraseña="";
+	
+  $conexion=mysqli_connect($db_host,$db_usuario,$db_contraseña);
+	
+	if(mysqli_connect_errno()){
+		echo "Fallo al conectar con las Base de Datos";
+		exit();
+	}
+	
+	mysqli_select_db($conexion, $db_nombrebd) or die ("No se encuentra la Base de Datos");
+	
+	mysqli_set_charset($conexion,"utf-8");
+?>
 
-
-  <section id="hero" class="d-flex align-items-center justify-content-center">
-    <div class="container" data-aos="fade-up">
-
-      <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
-        <div class="col-xl-6 col-lg-8">
-          <h1>
-			<?php
-				echo "Este es el Perfil de usuario de " . $_SESSION["nombre_usurio"] . " " . $_SESSION["apellido1"];
-			?>
-	  <span>.</span></h1>
-        </div>
-      </div>
-
-      <div class="row mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
-        <div class="col-xl-2 col-md-4 col-6">
-          <div class="icon-box">
-            <i class="ri-paint-brush-line"></i>
-            <h3><a href="#about">Perfil de usuario</a></h3>
-          </div>
-        </div>
-        <div class="col-xl-2 col-md-4 col-6 mt-4 mt-xl-0">
-          <div class="icon-box">
-            <i class="ri-database-2-line"></i>
-            <h3><a href="#contacto">Soporte técnico</a></h3>
-          </div>
-        </div>
-        <div class="col-xl-2 col-md-4 col-6">
-          <div class="icon-box">
-            <i class="ri-store-line"></i>
-            <h3><a href="cierre_sesion.php">Cerrar Sesión</a></h3>
-          </div>
-      </div>
-
-    </div>
+  <section id="hero" style ="height:30px" class="d-flex align-items-center justify-content-center">
+   
   </section>
 
+  
+
   <main id="main">
+  <?php
+                $DateTime = date('d-m-Y h:i:s a', time());  
+
+                /*$consulta="SELECT count(*) AS numero, e.nombre
+                FROM eventos_inscripcion
+                JOIN eventos e ON eventos_inscipcion.id_evento=eventos.id
+                WHERE id_evento = " .  $_SESSION['id_evento'] . " AND id_usuario LIKE '" . $_SESSION["nombre_usuario_id"] . "'";
+                */
+                $consulta="SELECT id_entrada, id_evento, id_usuario, id_sesion
+                          FROM eventos_inscripcion
+                          WHERE id_evento =".$_SESSION['id_evento']." AND id_usuario LIKE '".$_SESSION["nombre_usuario_id"]."' ";
+                
+                $resultados=mysqli_query($conexion, $consulta);	
+
+    ?>
 
 
     <section id="about" class="about">
       <div class="container" data-aos="fade-up">
         <div class="row">
-          
           <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
-            <h3>Datos de Usuario.</h3>
+            <h3>Tu reserva.</h3>
             <p class="font-italic">
-				<?php
-          echo "Usuario: " . $_SESSION["nombre_usuario_id"] . "<br>";
-					echo "Correo electrónico: " . $_SESSION["correo_electronico"] . "<br>";
-          echo "Nombre: " . $_SESSION["nombre_usurio"] . "<br>";
-					echo "Apellidos: " . $_SESSION["apellido1"] . " " . $_SESSION["apellido2"] . "<br>";
-		
-				?>
+            Se han enviado las entradas a tu correo            
             </p>
-            <p>
-				<h3><a href="cierre.php">Cerrar Sesión</a></h3>
-            </p>
+             
+            </table>
+            
+              <?php
+                
+                if($resultados==false){
+                  echo "<br>Error en la consulta";
+                  echo $resultados;
+                }else{
+                  echo $_SESSION["id_sesion"];
+                  echo "<br><table border=1>";
+                  while($fila=mysqli_fetch_array($resultados)){
+                    echo "<tr>
+                          <td class='col-4'>Foto</td>
+                          <td class='col-8'>
+                            <strong>" . $fila['id_entrada'] . "</strong>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan='2'>". $fila['id_evento'] . "</td>
+                        </tr>";
+                    
+                  }
+                 
+                  echo "</table>";
+
+
+                }
+                
+                
+               
+                
+              ?>
+
+              <button style='background-color: #000000; color: #ffffff;' onclick="confirmar()">Volver</button>
+               
+              <!--LA FUNCION TIENE QUE IR AQUÍ SI O SI SINO NO FUNCIONA-->
+
+              <script>
+                function confirmar(){
+
+
+                  
+                    
+                  }
+                }
+              </script>
+            <?php 
+               mysqli_close($conexion);
+            ?>
+
           </div>
         </div>
 
+
       </div>
-    </section>
-
-
-    
 
   </main>
+
+
+ 
 
   <footer id="footer">
     <div class="footer-top">
@@ -213,6 +255,8 @@
 
   <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
   <div id="preloader"></div>
+
+  
 
 
   <script src="../assets/vendor/jquery/jquery.min.js"></script>

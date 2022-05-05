@@ -72,11 +72,12 @@
 	if(!isset($_SESSION["nombre_usuario_id"])){
 		header("Location:iniciar_sesion.php");
 	}
+  if($_SESSION["tipo_usuario"] != 2){
+		header("Location:index.php");
+	}
 
   $usr=$_SESSION["nombre_usuario_id"];
-	/*if(!isset($_SESSION["nombre"])){
-		header("Location:iniciar_sesion.php");
-	}
+	/*
 	if(!isset($_SESSION["apellido1"])){
 		header("Location:iniciar_sesion.php");
 	}
@@ -93,7 +94,7 @@
 
 
 
-  <section id="hero" class="d-flex align-items-center justify-content-center">
+  <section id="hero" class="d-flex align-items-center justify-content-center" style="height:250px;">
   
     <h1>Crea un evento, 
     <?php
@@ -108,53 +109,53 @@
     <section id="about" class="about">
       <div class="container" data-aos="fade-up">
         <div class="row">
-          <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
+          <div class="col-lg-12 pt-12 pt-lg-12 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
             <h3>Crear un evento.</h3>
             <p class="font-italic">
               
-              <div class="col-lg-8 mt-5 mt-lg-0" style="align:center;">
-                <form action="insertar_evento.php" method="get" role="form">
-                  <div class="form-row">
+              <div class="col-lg-12 mt-12 mt-lg-12" style="align:center;">
+                <form action="insertar_evento.php" method="post" role="form" enctype="multipart/form-data">
+                  <div class="form">
                     <div class="form-group">
                       <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del evento" data-rule="minlen:4" data-msg="Ponga un nombre del evento válido" />
                       <div class="validate"></div>
                     </div>
                   </div>
-                  <div class="form-row">
+                  <div class="form">
                     <div class="form-group">
                       <input type="text" class="form-control" name="descripcion_corta" id="descripcion_corta" placeholder="Breve descripción" data-rule="minlen:4" data-msg="Rellene este campo" />
                       <div class="validate"></div>
                     </div>
                     </div>
-                  <div class="form-row">
+                  <div class="form">
                     <div class="form-group">
                       <textarea class="form-control" name="descripcion" id="descripcion" rows="5" data-rule="required" data-msg="Rellene este campo" placeholder="Descripción del evento."></textarea>
                       <div class="validate"></div>
                     </div>
                   </div>
-                  <div class="form-row">
+                  <div class="form">
                     <div class="form-group">
-                      <input type="image" class="form-control" name="imagen" id="imagen" placeholder="Imagen del evento" />
+                      <input type="file" class="form-control" name="imagen" id="imagen" placeholder="Imagen del evento" />
                       <div class="validate"></div>
                     </div>
                     </div>
-                  <div class="form-row">
+                  <div class="form">
                     <div class="form-group">
                       <input type="number" class="form-control" name="aforo_total" id="aforo_total" placeholder="Aforo del evento" data-rule-required="true" data-msg="Rellene este campo" />
                       <div class="validate"></div>
                     </div>
                   </div>
-                  <div class="form-row">
+                  <div class="form">
                     <div class="form-group">
                       <input type="datetime-local" class="form-control" name="fecha_evento" id="fecha_evento" placeholder="Fecha del evento" data-rule-required="true" data-msg="Rellene este campo" />
                       <div class="validate"></div>
                     </div>
                   </div>
-                  <div class="mb-3">
+                  <!--<div class="mb-3">
                     <div class="loading">Loading</div>
                     <div class="error-message"></div>
                     <div class="sent-message">Tu mensaje ha sido enviado.</div>
-                  </div>
+                  </div>-->
                   <div class="text-center"><button type="submit">Crear evento</button></div>
                 </form>
             

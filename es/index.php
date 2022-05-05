@@ -215,7 +215,7 @@
 
           <div class="col-lg-8 mt-5 mt-lg-0">
 
-            <form action="forms/email.php" method="get" role="form" class="php-email-form">
+            <form action="email.php" method="post" role="form" class="php-email-form">
               <div class="form-row">
                 <div class="col-md-6 form-group">
                   <input type="email" class="form-control" name="email" id="email" placeholder="Correo Electrónico" data-rule="email" data-msg="Ponga un correo válido" />
@@ -223,19 +223,19 @@
                 </div>
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="Asunto" data-rule="minlen:4" data-msg="Rellene este campo" />
+                <input type="text" class="form-control" name="asunto" id="asunto" placeholder="Asunto" data-rule="minlen:4" data-msg="Rellene este campo" />
                 <div class="validate"></div>
               </div>
               <div class="form-group">
-                <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Rellene este campo" placeholder="Mensaje"></textarea>
+                <textarea class="form-control" name="mensaje" id="mensaje" rows="5" data-rule="required" data-msg="Rellene este campo" placeholder="Mensaje"></textarea>
                 <div class="validate"></div>
               </div>
               <div class="mb-3">
-                <div class="loading">Loading</div>
+                <div class="loading">Cargando</div>
                 <div class="error-message"></div>
                 <div class="sent-message">Tu mensaje ha sido enviado.</div>
               </div>
-              <div class="text-center"><button type="submit">Enviar</button></div>
+              <div class="text-center"><button type="submit">Enviar mensaje</button></div>
             </form>
         
           </div>

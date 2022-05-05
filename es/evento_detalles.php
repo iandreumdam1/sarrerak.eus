@@ -34,7 +34,15 @@
 
 <?php
   session_start();
+
+  if (isset($_GET["w1"])) {
+    $_SESSION["id_evento"] = $_GET["w1"];
+  }
+  
+  $aforo_restante = 0;
+
 ?>
+
 
 
 <body>
@@ -69,37 +77,8 @@
   </header>
 
 
-
-
   
-  <script>
-
-
-    function confirmar(){
-    
-      var seleccion = document.getElementById("seleccion_entradas").value
-      
-      var entradas_restantes = "<?php echo 2  ?>" 
-
-      alert(entradas_restantes)
-      
-      if(entradas_restantes < seleccion){
-        alert("Las entradas seleccionadas superan el aforo.")
-      }
-      else if(seleccion > 10){
-        alert("Como máximo puedes seleccionar 10 entradas.")
-      }
-      else if(seleccion = 0){
-        alert("Por favor selecciona cuantas entradas quieres reservar.")
-      }
-      else if(seleccion = " "){
-        alert("Por favor selecciona cuantas entradas quieres reservar.")
-      }
-    }
-  </script>
-
-
-<?php
+  <?php
   $db_host="localhost";
 	$db_nombrebd="sarrerak";
 	$db_usuario="root";
@@ -150,9 +129,9 @@
             </table>
             
               <?php
-                echo "hola";
-                echo $_SESSION['id_evento'];
-                echo "hola";
+                
+               
+              
                 if($resultados==false){
                   echo "<br>Error en la consulta";
                   echo $resultados;
@@ -171,10 +150,14 @@
 
                     $aforo_atual = $fila['aforo_actual'];
                     $aforo_total = $fila['aforo_total'];
-                    
-                   
+                    $aforo_restante = $aforo_total - $aforo_atual;
+                    $_SESSION["aforo_restante"] = $aforo_restante;
+                    $_SESSION["aforo_actual"] = $aforo_atual;
                     
                   }
+
+
+                  
 
                   
                   echo "</table>";
@@ -183,18 +166,56 @@
                   
                   echo $aforo_total;
 
-                  echo "<br><input type='number' class='form-control' name='seleccion_entradas' id='seleccion_entradas' placeholder='Entradas deseadas' data-rule-required='true' data-msg='Rellene este campo' />
-                        <br><button style='background-color: #000000; color: #ffffff;' onclick='confirmar()'>Confirmar entradas</button>";
+                  echo "<br><input type='number' class='form-control' name='seleccion_entradas' id='seleccion_entradas' placeholder='Entradas deseadas' data-rule-required='true' data-msg='Rellene este campo' /><br>";
 
                 }
                 
                 
-                mysqli_close($conexion);
+               
                 
               ?>
 
               <button style='background-color: #000000; color: #ffffff;' onclick="confirmar()">Confirmar entradas</button>
-           
+               
+              <!--LA FUNCION TIENE QUE IR AQUÍ SI O SI SINO NO FUNCIONA-->
+
+              <script>
+                function confirmar(){
+
+
+                  var seleccion = document.getElementById("seleccion_entradas").value
+                  
+                  var entradas_restantes = "<?php echo$aforo_restante?>" 
+                  
+
+                  if(parseInt(seleccion) > parseInt(entradas_restantes)){
+                    alert("Las entradas seleccionadas superan el aforo.")
+                  }
+                  else if(parseInt(seleccion) > 10){
+                    alert("Como máximo puedes seleccionar 10 entradas.")
+                  }
+                  else if(parseInt(seleccion) <= 0){
+                    alert("Por favor selecciona cuantas entradas quieres reservar.")
+                  }
+                
+                  else{
+                    <?php 
+                      if($DateTime = null){
+                        
+                      }
+                      $DateTime = date('d-m-Y h:i:s a', time()); 
+                        $_SESSION["id_sesion"] = $DateTime;
+                    ?>
+                    window.location.href = "insertar_reserva.php" + "?w2=" + seleccion;
+                    
+                    
+                  }
+                }
+              </script>
+            <?php 
+               mysqli_close($conexion);
+            ?>
+
           </div>
         </div>
 
@@ -202,6 +223,9 @@
       </div>
 
   </main>
+
+
+ 
 
   <footer id="footer">
     <div class="footer-top">
@@ -274,6 +298,8 @@
 
   <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
   <div id="preloader"></div>
+
+  
 
 
   <script src="../assets/vendor/jquery/jquery.min.js"></script>
