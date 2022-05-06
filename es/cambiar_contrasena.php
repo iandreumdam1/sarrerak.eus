@@ -67,6 +67,7 @@
 	    ?></a>
 
     </div>
+  </header>
 
   <section id="hero" class="d-flex align-items-center justify-content-center">
     <div class="container" data-aos="fade-up">
@@ -77,22 +78,46 @@
         </div>
       </div>
       <div class="row mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
-           <form action="envio_contrasena.php" method="get">
+           <form action="envio_contrasena.php" method="post">
 			  <div class="form-row">
               <div class="form-group">
-                <input type="password" class="form-control" name="password" id="password" placeholder="Nueva contraseña" data-rule="minlen:4" data-msg="Rellene este campo" />
+                <input type="password" class="form-control" name="contrasena1" id="contrasena1" placeholder="Nueva contraseña" data-rule="minlen:4" data-msg="Rellene este campo" required/>
+                <div class="validate"></div>
+              </div>
+			  </div>
+        <div class="form-row">
+              <div class="form-group">
+                <input type="password" class="form-control" name="contrasena2" id="contrasena2" placeholder="Repite la contraseña" data-rule="minlen:4" data-msg="Rellene este campo" required/>
                 <div class="validate"></div>
               </div>
 			  </div>
 			  <div class="form-row">
               <div class="form-group">
-                <input type="text" class="form-control" name="idusuario" id="idusuario" placeholder="Tu ID de Usuario." data-rule="minlen:4" data-msg="Rellene este campo" />
+                <input type="text" class="form-control" name="usuario" id="usuario" placeholder="Tu nombre de usuario." data-rule="minlen:4" data-msg="Rellene este campo" required/>
+                <div class="validate"></div>
+              </div>
+			  </div>
+        <div class="form-row">
+              <div class="form-group">
+                <input type="text" class="form-control" name="correo" id="correo" placeholder="Tu correo electrónico." data-rule="minlen:4" data-msg="Rellene este campo" required/>
                 <div class="validate"></div>
               </div>
 			  </div>
 			  
+        <?php
+          
+          if(isset($_GET["error"])&& $_GET["error"]==1){ 
+            echo "<h2 class=\"error\">No existe dicho usuario.</h2><br>";
+          }
+          if(isset($_GET["error"])&& $_GET["error"]==2){
+            echo "<h2 class=\"error\">El correo electrónico no coincide con el correo del usurio.</h2><br>";
+          }
+          if(isset($_GET["error"])&& $_GET["error"]==2){
+            echo "<h2 class=\"error\">No se ha podido guardar la contraseña.</h2><br>";
+          }
+        ?>
             
-              <div class="text-center"><button type="submit">Cambiar Contraseña</button></div><br><br>
+        <div class="text-center"><button type="submit">Cambiar Contraseña</button></div><br><br>
 			  <a href="iniciar_sesion.php">¡Iniciar Sesión!</a><br>
 			  <a href="cambiar_contrasena.php">¡Registrate!</a>
             </form>

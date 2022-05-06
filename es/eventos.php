@@ -103,7 +103,7 @@
     <section id="about" class="about">
       <div class="container" data-aos="fade-up">
         <div class="row">
-          <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
+          <div class="col-lg-12 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
             <h3>Próximos eventos.</h3>
             <p class="font-italic">
               <!--Insertar aquí el for con los eventos próximos.-->
@@ -115,11 +115,12 @@
             
               <?php
                 $DateTime = date('Y-m-d h:i:s a', time());  
+
                 echo "La fecha y hora actual es $DateTime.";
 
                 $consulta="SELECT id, nombre, descripcion_breve, fecha_evento
                 FROM eventos
-                WHERE fecha_evento > '$DateTime'";
+                WHERE fecha_evento > '$DateTime' ORDER BY fecha_evento ASC";
                 
                 $resultados=mysqli_query($conexion, $consulta);	
 
@@ -127,17 +128,19 @@
                   echo "<br>Error en la consulta";
                   echo $resultados;
                 }else{
-                  echo "<br><table border='1'>";
+                  echo "<br><table>";
                   while($fila=mysqli_fetch_array($resultados)){
-                    echo "<tr>
-                          <td class='col-4'><img src='ver_imagen.php?id=".$fila['id']."' alt='Imagen del evento.'</img></td>
+                    echo "<tr style='height: 250px'>
+                          <td class='col-4'><img src='ver_imagen.php?id=".$fila['id']."' alt='Imagen del evento.'></img></td>
                           <td class='col-8'>
                             <br><strong>" . $fila['nombre'] . "</strong><br>
                             <br>". $fila['descripcion_breve'] ."
                             <br>". $fila['fecha_evento'] ."
                             <br>
-                            <button style='background-color: #000000; color: #ffffff;' onclick='redirigir(" . $fila['id'] . ")'>Comprar entradas</button>
+                            <button style='background-color: #000000; color: #ffffff; margin-top: 20px;' onclick='redirigir(" . $fila['id'] . ")'>Comprar entradas</button>
+                            <hr>
                           </td>
+                          
                         </tr>";
                   }
                   

@@ -54,8 +54,8 @@
 		}
 
 		echo "<script>
-				alert(¡El evento ha sido creado con éxito!);
-				window.location.href = 'eventos.php'
+				//alert(¡El evento ha sido creado con éxito!);
+				window.location.href = 'eventos.php';
 			</script>";
 
 		echo "fin";

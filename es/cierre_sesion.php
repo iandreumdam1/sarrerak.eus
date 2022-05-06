@@ -2,7 +2,7 @@
 <html>
     <head>
 	    <meta charset="UTF-8"> 
-        <title>SMR - Cierre</title>  
+        <title>Cerrando Sesión</title>  
     </head>
 	
     <body>	

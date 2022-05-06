@@ -70,10 +70,10 @@
 <?php
 	
 	if(!isset($_SESSION["nombre_usuario_id"])){
-		header("Location:iniciar_sesion.php");
+		header("Location:iniciar_sesion.php"."?rp="."crear_evento.php");
 	}
   if($_SESSION["tipo_usuario"] != 2){
-		header("Location:index.php");
+		header("Location:index.php"."?rp="."crear_evento.php");
 	}
 
   $usr=$_SESSION["nombre_usuario_id"];
@@ -117,37 +117,37 @@
                 <form action="insertar_evento.php" method="post" role="form" enctype="multipart/form-data">
                   <div class="form">
                     <div class="form-group">
-                      <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del evento" data-rule="minlen:4" data-msg="Ponga un nombre del evento válido" />
+                      <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del evento" data-rule="minlen:4" data-msg="Ponga un nombre del evento válido" required/>
                       <div class="validate"></div>
                     </div>
                   </div>
                   <div class="form">
                     <div class="form-group">
-                      <input type="text" class="form-control" name="descripcion_corta" id="descripcion_corta" placeholder="Breve descripción" data-rule="minlen:4" data-msg="Rellene este campo" />
+                      <input type="text" class="form-control" name="descripcion_corta" id="descripcion_corta" placeholder="Breve descripción" data-rule="minlen:4" data-msg="Rellene este campo" required/>
                       <div class="validate"></div>
                     </div>
                     </div>
                   <div class="form">
                     <div class="form-group">
-                      <textarea class="form-control" name="descripcion" id="descripcion" rows="5" data-rule="required" data-msg="Rellene este campo" placeholder="Descripción del evento."></textarea>
-                      <div class="validate"></div>
-                    </div>
-                  </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="file" class="form-control" name="imagen" id="imagen" placeholder="Imagen del evento" />
-                      <div class="validate"></div>
-                    </div>
-                    </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="number" class="form-control" name="aforo_total" id="aforo_total" placeholder="Aforo del evento" data-rule-required="true" data-msg="Rellene este campo" />
+                      <textarea class="form-control" name="descripcion" id="descripcion" rows="5" data-rule="required" data-msg="Rellene este campo" placeholder="Descripción del evento." required></textarea>
                       <div class="validate"></div>
                     </div>
                   </div>
                   <div class="form">
                     <div class="form-group">
-                      <input type="datetime-local" class="form-control" name="fecha_evento" id="fecha_evento" placeholder="Fecha del evento" data-rule-required="true" data-msg="Rellene este campo" />
+                      <input type="file" class="form-control" name="imagen" id="imagen" placeholder="Imagen del evento" required/>
+                      <div class="validate"></div>
+                    </div>
+                    </div>
+                  <div class="form">
+                    <div class="form-group">
+                      <input type="number" class="form-control" name="aforo_total" id="aforo_total" placeholder="Aforo del evento" data-rule-required="true" data-msg="Rellene este campo" required/>
+                      <div class="validate"></div>
+                    </div>
+                  </div>
+                  <div class="form">
+                    <div class="form-group">
+                      <input type="datetime-local" class="form-control" name="fecha_evento" id="fecha_evento" placeholder="Fecha del evento" data-rule-required="true" data-msg="Rellene este campo" required/>
                       <div class="validate"></div>
                     </div>
                   </div>
@@ -156,7 +156,7 @@
                     <div class="error-message"></div>
                     <div class="sent-message">Tu mensaje ha sido enviado.</div>
                   </div>-->
-                  <div class="text-center"><button type="submit">Crear evento</button></div>
+                  <div class="text-center"><button type="submit" style='background-color: #000000; color: #ffffff;'>Crear evento</button></div>
                 </form>
             
               </div>

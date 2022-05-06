@@ -34,6 +34,10 @@
 
 <?php
   session_start();
+
+  if (isset($_GET["rp"])) {
+    $_SESSION["redirigir_pagina"] = $_GET["rp"];
+  }
 ?>
 
 

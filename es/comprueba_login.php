@@ -29,14 +29,13 @@
 
 		$error = false;
 
-		//Si la consulta ha retornado algún registro, aceptamos el login
+		//Si la consulta ha devuelve algún registro, aceptamos el login
 		if ($stmt = $conn->prepare($sql)) {
 			$stmt->bind_param("s", $_POST["login"]);
 			$stmt->execute();
 			if ($resultado = $stmt->get_result()) {
 				$user = $resultado->fetch_assoc();
 				//Comprueba si son iguales la contraseña original y la codificada
-				//$equal = password_verify($_POST["password"], $user["password"]);
 				$equal = strcmp($_POST["password"], $user["contrasena"]);
 
 				if ($equal === 0 ) {
@@ -48,7 +47,7 @@
 					$_SESSION["correo_electronico"] = $user["correo_electronico"];
 					$_SESSION["tipo_usuario"] = $user["tipo"];
 					//Redirigimos a la página protegida que será el listado de nuestros mensajes
-					header("Location: pagina_personal.php");
+					header("Location:".$_SESSION["redirigir_pagina"]."");
 					
 
 				} else {

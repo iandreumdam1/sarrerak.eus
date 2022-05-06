@@ -35,6 +35,10 @@
 <?php
   session_start();
 
+  if(!isset($_SESSION["nombre_usuario_id"])){
+		header("Location:iniciar_sesion.php"."?rp="."evento_detalles.php");
+	}
+
   if (isset($_GET["w1"])) {
     $_SESSION["id_evento"] = $_GET["w1"];
   }
@@ -136,16 +140,16 @@
                   echo "<br>Error en la consulta";
                   echo $resultados;
                 }else{
-                  echo "<br><table>";
+                  echo "<br><table width='200%'>";
                   while($fila=mysqli_fetch_array($resultados)){
                     echo "<tr>
-                          <td class='col-4'>Foto</td>
+                          <td class='col-4'><img src='ver_imagen.php?id=".$fila['id']."' alt='Imagen del evento.' style='height: 150%; width: 100%;'></img></td>
                           <td class='col-8'>
-                            <strong>" . $fila['nombre'] . "</strong>
+                            <h2><strong>" . $fila['nombre'] . "</strong></h2>
                           </td>
                         </tr>
-                        <tr>
-                          <td colspan='2'>". $fila['descripcion'] . "</td>
+                        <tr >
+                          <td colspan='2'><p style='margin-top: 10px;'>". $fila['descripcion'] . "</p></td>
                         </tr>";
 
                     $aforo_atual = $fila['aforo_actual'];
@@ -164,7 +168,7 @@
 
                   
                   
-                  echo $aforo_total;
+                  echo "<p>Aforo restante: ".$aforo_restante." asientos.</p>";
 
                   echo "<br><input type='number' class='form-control' name='seleccion_entradas' id='seleccion_entradas' placeholder='Entradas deseadas' data-rule-required='true' data-msg='Rellene este campo' /><br>";
 

@@ -35,44 +35,6 @@
 <?php
   session_start();
 
-?>
-
-
-
-<body>
-
-  <header id="header" class="fixed-top ">
-    <div class="container d-flex align-items-center justify-content-between">
-
-      <h1 class="logo"><a href="index.php">SARRERAK<span>.</span>EUS</a></h1>
-
-      <nav class="nav-menu d-none d-lg-block">
-        <ul>
-          <li class="#"><a href="#.html">Servicios</a></li>
-          <li class="#"><a href="crear_evento.php">Organizadores</a></li>
-		      <li class="#"><a href="#.html">Clientes</a></li>
-		      <li class="#"><a href="eventos.php">Compra de entradas</a></li>
-          <li class="#"><a href="#.html">Euskara</a></li>
-
-        </ul>
-      </nav>
-
-      <a href="pagina_personal.php" class="inicio_sesion scrollto"><?php
-		    
-        if(!isset($_SESSION["nombre_usuario_id"])){
-          echo "Iniciar Sesión";
-        }else{
-          echo "Logeado como: " . $_SESSION["nombre_usuario_id"];
-        }
-        
-	    ?></a>
-
-    </div>
-  </header>
-
-
-  
-  <?php
   $db_host="localhost";
 	$db_nombrebd="sarrerak";
 	$db_usuario="root";
@@ -89,10 +51,6 @@
 	
 	mysqli_set_charset($conexion,"utf-8");
 ?>
-
-  <section id="hero" style ="height:30px" class="d-flex align-items-center justify-content-center">
-   
-  </section>
 
   
 
@@ -123,9 +81,6 @@
         <div class="row">
           <div class="col-lg-12 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
             <h3>Tu reserva.</h3>
-            <p class="font-italic">
-            Se han enviado las entradas a tu correo            
-            </p>
              
             </table id="imprimible">
             
@@ -139,9 +94,9 @@
                   
                   while($fila=mysqli_fetch_array($resultados)){
                     echo "<br><table frame='box' class='col-12'>";
-                    echo "<tr style='height: 250px'>
-                            <td class='col-3'><img src='ver_imagen.php?id=".$fila['id_evento']."' alt='Imagen del evento.' ></td>
-                            <td class='col-7'>
+                    echo "<tr style='height: 250px;'>
+                            <td style='width: 200px; padding-left: 10px;'><img src='ver_imagen.php?id=".$fila['id_evento']."' alt='Imagen del evento.' ></td>
+                            <td >
                               <strong>" . $fila['nombre_evento'] . "</strong>
                               <br>
                               ".$fila['descripcion']."
@@ -149,7 +104,7 @@
                               <a>Fecha y hora: ".$fila['fecha']."</a><br>
                               <a>Nombre: ". $fila['nombre'] . ", ". $fila['apellido'] . "</a>
                             </td>
-                            <td class='col-2'>Código QR".$fila['id_entrada']."</td>
+                            <td style='width: 200px;'>Código QR".$fila['id_entrada']."</td>
                           </tr>";
                     echo "</table>";
                     
@@ -166,14 +121,20 @@
               ?>
               <br>
               <button style='background-color: #000000; color: #ffffff;' onclick="imprimir()">Inprimir entradas</button>
+              <button style='background-color: #000000; color: #ffffff;' onclick="volver()">Volver</button>
                
               <!--LA FUNCION TIENE QUE IR AQUÍ SI O SI SINO NO FUNCIONA-->
 
               <script>
+                window.print();
                 function imprimir(){
-                  window.location = "imprimible_entradas.php";
+                  window.print();
+                }
+                function volver(){
+                  window.location = "entradas_reservadas.php";
                   
                 }
+               
               </script>
             <?php 
                mysqli_close($conexion);
@@ -187,82 +148,6 @@
 
   </main>
 
-
- 
-
-  <footer id="footer">
-    <div class="footer-top">
-      <div class="container">
-        <div class="row">
-
-          <div class="col-lg-3 col-md-6">
-            <div class="footer-info">
-              <h3>SARRERAK<span>.</span>EUS</h3>
-              <p>
-                <strong>Teléfono:</strong> 601107126<br>
-                <strong>Email:</strong> sarrerak.eus@gmail.com<br>
-              </p>
-              <div class="social-links mt-3">
-                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-2 col-md-6 footer-links">
-            <h4>Links</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="index.php">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Sobre nosotros</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Servicios</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Términos</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Política de privacidad</a></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Servicios</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Gestion integral de entradas.</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Acomodación.</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Sonido.</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Iluminación.</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Personal técnico.</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-<div class="container">
-      <div class="copyright">
-        &copy; Copyright <strong><span>SARRERAK</span></strong>.<strong>EUS</strong> Todos los derechos reservados
-      </div>
-      <div class="credits">
-
-        Editado por Ibai Andreu.
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="copyright">
-        &copy; Copyright <strong><span>Gp</span></strong>. All Rights Reserved
-      </div>
-      <div class="credits">
-       
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
-  </footer>
-
-  <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
-  <div id="preloader"></div>
-
-  
 
 
   <script src="../assets/vendor/jquery/jquery.min.js"></script>
