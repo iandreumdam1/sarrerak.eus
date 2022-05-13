@@ -33,8 +33,58 @@
 </head>
 
 <?php
-	session_start();
+  if(session_status()!=2){
+    session_start();
+  }
+  
+
+  if(!isset($_SESSION["nombre_usuario_id"])){
+		header("Location:iniciar_sesion.php"."?rp="."evento_detalles.php");
+	}
+
+  if($_SESSION["tipo_usuario"] == 1){
+		header("Location:pagina_personal.php");
+	}
+
+  if (isset($_GET["w1"])) {
+    $_SESSION["id_evento"] = $_GET["w1"];
+  }
+
+  if (isset($_GET["msg"])) {
+		$msg = $_GET["msg"];
+    
+	}
+  if (isset($_GET["id"])) {
+		$id_entrada = $_GET["id"];
+    
+	}
+  else{
+    $id_entrada = 0;
+  }
+  
+
+  $db_host="localhost";
+	$db_nombrebd="sarrerak";
+	$db_usuario="root";
+	$db_contraseña="";
+	
+  $conexion=mysqli_connect($db_host,$db_usuario,$db_contraseña);
+	
+	if(mysqli_connect_errno()){
+		echo "Fallo al conectar con las Base de Datos";
+		exit();
+	}
+	
+	mysqli_select_db($conexion, $db_nombrebd) or die ("No se encuentra la Base de Datos");
+	
+	mysqli_set_charset($conexion,"utf-8");
 ?>
+
+
+
+
+
+
 
 <body>
 
@@ -66,96 +116,80 @@
     </div>
   </header>
 
-<?php
-	
-	if(!isset($_SESSION["nombre_usuario_id"])){
-		header("Location:iniciar_sesion.php"."?rp="."crear_evento.php");
-	}
-  if($_SESSION["tipo_usuario"] != 2){
-		header("Location:index.php"."?rp="."crear_evento.php");
-	}
-
-  $usr=$_SESSION["nombre_usuario_id"];
-	
-?>
-
-
-
-  <section id="hero" class="d-flex align-items-center justify-content-center" style="height:250px;">
   
-    <h1>Crea un evento, 
-    <?php
-       echo $_SESSION["nombre_usuario_id"];
-       
-	  ?>.</h1>
+  
+  
+  <section id="hero" style ="height:30px" class="d-flex align-items-center justify-content-center">
+    
   </section>
 
   <main id="main">
+  
 
-
-    <!--Formulario de insertar eventos en la BD-->
     <section id="about" class="about">
       <div class="container" data-aos="fade-up">
         <div class="row">
-          <div class="col-lg-12 pt-12 pt-lg-12 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
-            <h3>Crear un evento.</h3>
+          <div class="col-lg-12 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
+            <h3>Check - In.</h3>
             <p class="font-italic">
               
-            <div class="text-right"><button type="submit" style='background-color: #000000; color: #ffffff;' onclick="editar()">Editar un evento</button></div>
-            <br>
-              <div class="col-lg-12 mt-12 mt-lg-12" style="align:center;">
-                <form action="insertar_evento.php" method="post" role="form" enctype="multipart/form-data">
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del evento" data-rule="minlen:4" data-msg="Ponga un nombre del evento válido" required/>
-                      <div class="validate"></div>
-                    </div>
-                  </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="text" class="form-control" name="descripcion_corta" id="descripcion_corta" placeholder="Breve descripción" data-rule="minlen:4" data-msg="Rellene este campo" required/>
-                      <div class="validate"></div>
-                    </div>
-                    </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <textarea class="form-control" name="descripcion" id="descripcion" rows="5" data-rule="required" data-msg="Rellene este campo" placeholder="Descripción del evento." required></textarea>
-                      <div class="validate"></div>
-                    </div>
-                  </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="file" class="form-control" name="imagen" id="imagen" placeholder="Imagen del evento" required/>
-                      <div class="validate"></div>
-                    </div>
-                    </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="number" class="form-control" name="aforo_total" id="aforo_total" placeholder="Aforo del evento" data-rule-required="true" data-msg="Rellene este campo" required/>
-                      <div class="validate"></div>
-                    </div>
-                  </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="datetime-local" class="form-control" name="fecha_evento" id="fecha_evento" placeholder="Fecha del evento" data-rule-required="true" data-msg="Rellene este campo" required/>
-                      <div class="validate"></div>
-                    </div>
-                  </div>
-                  <!--<div class="mb-3">
-                    <div class="loading">Loading</div>
-                    <div class="error-message"></div>
-                    <div class="sent-message">Tu mensaje ha sido enviado.</div>
-                  </div>-->
-                  <div class="text-center"><button type="submit" style='background-color: #000000; color: #ffffff;'>Crear evento</button></div>
-                  
-                </form>
-            
-              </div>
-              
             </p>
-            <?php
-              
-            ?>
+            <!--<input type="file" accept="image/*" capture="camera" id=""/>-->
+
+            <div style="margin-left: 10%; margin-right: 10%;">
+              <video id="previsualizacion" class="p-1 border" style="width: 100%;"></video>
+            </div>
+
+            <div id="info_persona" style="height: 60px; text-align: center; padding-top: 15px">
+                Lee una entrada, por favor.
+            </div>
+             
+            </table>
+            
+            
+              <?php
+
+                $consulta1="SELECT id, nombre, descripcion_breve, fecha_evento
+                FROM eventos
+                WHERE id = ".$_SESSION["id_evento"]."";
+                
+                $resultados1=mysqli_query($conexion, $consulta1);	
+
+                while($fila=mysqli_fetch_array($resultados1)){
+                  echo "<tr style='height: 250px'>
+                        <td class='col-10'>
+                          <br><strong>" . $fila['nombre'] . "</strong><br>
+                          <br>". $fila['descripcion_breve'] ."
+                          <br>". $fila['fecha_evento'] ."                  
+                          <hr>
+                        </td>
+                        
+                      </tr>";
+                }
+
+
+                $DateTime = date('Y-m-d h:i:s a', time());  
+
+                echo "La fecha y hora actual es $DateTime.";
+
+                //Consulta para mostrar datos del usuario que ha comprado la entrada.
+                
+                $consulta2="SELECT usuarios.nombre AS nombre_persona, apellido1, apellido2
+                FROM eventos_inscipcion
+                INNER JOIN usuarios ON eventos_inscripcion.id_usuario = usuarios.nombre_usuario_id
+                WHERE id_entrada = ".$id_entrada."";
+                
+                $resultados2=mysqli_query($conexion, $consulta2);	
+                $nombrePersona = "";
+                while($fila=mysqli_fetch_array($resultados1)){
+                  $nombrePersona = $fila['nombre_persona']." ".$fila['apellido1']." ".$fila['apellido2'];
+                }
+                
+                
+                mysqli_close($conexion);
+                
+              ?>
+            
            
           </div>
         </div>
@@ -165,11 +199,63 @@
   </main>
 
   <script>
-    function editar(){
-      window.location = "eventos_editar.php";
-    }
+    
+    var mensaje = "<?php echo $msg ?>";
+    var nombre_persona = "<?php echo $nombrePersona ?>";
+   
+    if (mensaje==1) {
+      document.getElementById("info_persona").style.backgroundColor = "#ff0000";
+      document.getElementById("info_persona").innerHTML = "<p><strong>El asistente no tiene acceso a este evento.</strong></p>";
+    } else if (mensaje==2) {
 
+      document.getElementById("info_persona").style.backgroundColor = "#FF8B00";
+      document.getElementById("info_persona").innerHTML = "<p><strong>El asistente ya ha entrado.</strong></p>";
+    } else if(mensaje==3){
+      document.getElementById("info_persona").style.backgroundColor = "#00ff00";
+      document.getElementById("info_persona").innerHTML = "<p><strong>Adelante.<br>" + nombre_persona + "</strong></p>";
+    }
+    
   </script>
+
+<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+  <script type="text/javascript">
+    var scanner = new Instascan.Scanner({
+      video: document.getElementById('previsualizacion'),
+      scanPeriod: 5,
+      mirror: false
+                  
+    });
+
+    Instascan.Camera.getCameras().then(function(cameras){
+      if (cameras.length > 0){
+        //scanner.start(cameras[1]);
+		var selectedCam = cameras[0];
+        $.each(cameras, (i, c) => {
+            if (c.name.indexOf('back') !== -1) {
+                selectedCam = c;
+                return false;
+            }
+        });
+
+        scanner.start(selectedCam);
+      }
+      else{
+        console.error('No se han encontrado camaras');
+        alert('El dispositivo no tiene cámara');
+      }
+    }).catch(function(e){
+      console.error(e);
+      alert("ERROR: " + e);
+    });
+
+      scanner.addListener('scan', function(respuesta){
+      //console.log(": " + respuesta);
+      window.location = "insertar_check.php?cqr=" + respuesta;
+      });
+</script>
+  
+
+ 
 
   <footer id="footer">
     <div class="footer-top">
@@ -242,6 +328,8 @@
 
   <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
   <div id="preloader"></div>
+
+  
 
 
   <script src="../assets/vendor/jquery/jquery.min.js"></script>

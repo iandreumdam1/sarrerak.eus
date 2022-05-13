@@ -20,7 +20,7 @@
 	$db_usuario="root";
 	$db_contraseña="";
 	
-	require("cambiar_contrasena.php");
+	//require("cambiar_contrasena.php");
 	
 	if($psw1 != $psw2){
 		echo "La contraseña no coincidea";
@@ -38,15 +38,18 @@
 		
 		mysqli_set_charset($conexion,"utf-8");
 		
-		$consulta1="SELECT correo_electronico
+		$consulta1="SELECT correo_electronico, count(*) AS contador
 					FROM usuarios
 					WHERE nombre_usuario_id = '$usr'";
-		$resultados1=mysqli_query($conexion, $consulta2);
+		$resultados1=mysqli_query($conexion, $consulta1);
 
 		if($resultados1==false){
-			header("Location: cambiar_contrasena.php?error=1");
+			
 		}else{
-			while($fila=mysqli_fetch_array($resultados)){
+			while($fila=mysqli_fetch_array($resultados1)){
+				if($fila['contador']!=1){
+					header("Location: cambiar_contrasena.php?error=1");
+				}
 				if($fila['correo_electronico'] != $mail){
 					header("Location: cambiar_contrasena.php?error=2");
 				}
@@ -58,7 +61,7 @@
 						header("Location: cambiar_contrasena.php?error=3");
 					}
 					else{
-						header("Location: pagina_personal.php");
+						header("Location: enviar_confirmacion_cambio_contrasena.php?usr=".$usr);
 					}
 				}
 			}

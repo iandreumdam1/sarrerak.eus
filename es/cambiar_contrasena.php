@@ -40,18 +40,17 @@
 ?>
 
 
-  <header id="header" class="fixed-top ">
+<header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-between">
 
       <h1 class="logo"><a href="index.php">SARRERAK<span>.</span>EUS</a></h1>
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li class="#"><a href="#.html">Servicios</a></li>
           <li class="#"><a href="crear_evento.php">Organizadores</a></li>
-		      <li class="#"><a href="#.html">Clientes</a></li>
+		      <li class="#"><a href="acomodadores_eventos.php">Acomodadores</a></li>
 		      <li class="#"><a href="eventos.php">Compra de entradas</a></li>
-          <li class="#"><a href="#.html">Euskara</a></li>
+          <li class="#"><a href="../eus/index.php">Euskara</a></li>
 
         </ul>
       </nav>
@@ -61,7 +60,7 @@
         if(!isset($_SESSION["nombre_usuario_id"])){
           echo "Iniciar Sesión";
         }else{
-          echo "Logeado como: " . $_SESSION["nombre_usuario_id"];
+          echo "Perfil de: " . $_SESSION["nombre_usuario_id"];
         }
         
 	    ?></a>
@@ -77,6 +76,20 @@
           <h1>¡Cambia tu contraseña!<span>.</span></h1>
         </div>
       </div>
+
+      <?php
+          
+          if(isset($_GET["error"])&& $_GET["error"]==1){ 
+            echo "<h2 class=\"error\" style='color: red;'>No existe dicho usuario.</h2><br>";
+          }
+          if(isset($_GET["error"])&& $_GET["error"]==2){
+            echo "<h2 class=\"error\" style='color: red;'>El correo electrónico no coincide con el correo del usurio.</h2><br>";
+          }
+          if(isset($_GET["error"])&& $_GET["error"]==2){
+            echo "<h2 class=\"error\" style='color: red;'>No se ha podido guardar la contraseña.</h2><br>";
+          }
+        ?>
+        
       <div class="row mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
            <form action="envio_contrasena.php" method="post">
 			  <div class="form-row">
@@ -104,22 +117,13 @@
               </div>
 			  </div>
 			  
-        <?php
-          
-          if(isset($_GET["error"])&& $_GET["error"]==1){ 
-            echo "<h2 class=\"error\">No existe dicho usuario.</h2><br>";
-          }
-          if(isset($_GET["error"])&& $_GET["error"]==2){
-            echo "<h2 class=\"error\">El correo electrónico no coincide con el correo del usurio.</h2><br>";
-          }
-          if(isset($_GET["error"])&& $_GET["error"]==2){
-            echo "<h2 class=\"error\">No se ha podido guardar la contraseña.</h2><br>";
-          }
-        ?>
+        
             
-        <div class="text-center"><button type="submit">Cambiar Contraseña</button></div><br><br>
+        <div class="text-center">
+          <button type="submit" class="inicio_sesion scrollto"style="background-color: transparent;">Cambiar Contraseña</button>
+        </div><br><br>
 			  <a href="iniciar_sesion.php">¡Iniciar Sesión!</a><br>
-			  <a href="cambiar_contrasena.php">¡Registrate!</a>
+			  <a href="registro.php">¡Registrate!</a>
             </form>
         
           </div>

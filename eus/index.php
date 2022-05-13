@@ -38,7 +38,15 @@
 <?php
 	session_start();
 ?>
-
+<!--//BLOQUE COOKIES-->
+<div id="barraaceptacion" style="display: block;">
+    <div class="inner">
+        Zure baimena eskatzen dizugu web horri hontako datu estatistikoak lortu ahal izateko, erreal dekretu- 
+        legea 2012/13 betetzear. Nabigatzen jarraitu ezgero cookien onarpena onartzen duzula onartzen dugu.
+        <a href="javascript:void(0);" class="ok" onclick="PonerCookie();"><b>OK</b></a> | 
+        <a href="http://politicadecookies.com" target="_blank" class="info">Más información</a>
+    </div>
+</div>
  
 
 
@@ -49,20 +57,21 @@
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li class="#"><a href="crear_evento.php">Organizadores</a></li>
-		      <li class="#"><a href="acomodadores_eventos.php">Acomodadores</a></li>
-		      <li class="#"><a href="eventos.php">Compra de entradas</a></li>
-          <li class="#"><a href="../eus/index.php">Euskara</a></li>
+          <li class="#"><a href="#.html">Zerbitzuak</a></li>
+          <li class="#"><a href="../es/index.php">Antolatzaileak</a></li>
+		      <li class="#"><a href="../es/index.php">Acomodadores</a></li>
+		      <li class="#"><a href="../es/index.php">Sarrerak erosi</a></li>
+          <li class="#"><a href="../es/index.php">Castellano</a></li>
 
         </ul>
       </nav>
 
-      <a href="pagina_personal.php" class="inicio_sesion scrollto"><?php
+      <a href="../es/index.php" class="inicio_sesion scrollto"><?php
 		    
         if(!isset($_SESSION["nombre_usuario_id"])){
           echo "Iniciar Sesión";
         }else{
-          echo "Perfil de: " . $_SESSION["nombre_usuario_id"];
+          echo "Logeado como: " . $_SESSION["nombre_usuario_id"];
         }
         
 	    ?></a>
@@ -75,7 +84,7 @@
 
       <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
         <div class="col-xl-6 col-lg-8">
-          <h1>SARRERAK<span>.</span>EUS</h1>
+          <h1>SARRERAK<span>.</span>EUS<br>Laister</h1>
         </div>
       </div>
 
@@ -83,7 +92,7 @@
         <div class="col-xl-2 col-md-4 col-6">
           <div class="icon-box">
             <i class="ri-store-line"></i>
-            <h3><a href="eventos.php">Compra de entradas</a></h3>
+            <h3><a href="../es/index.php">Sarrerak erosi</a></h3>
           </div>
         </div>
     </div>
@@ -91,7 +100,7 @@
 
   <main id="main">
 
-
+<!--
     <section id="about" class="about">
       <div class="container" data-aos="fade-up">
         <div class="row">
@@ -250,6 +259,7 @@
     </section>
 
   </main>
+          -->
 
   <footer id="footer">
     <div class="footer-top">
@@ -260,7 +270,7 @@
             <div class="footer-info">
               <h3>SARRERAK<span>.</span>EUS</h3>
               <p>
-                <strong>Teléfono:</strong> 601107126<br>
+                <strong>Telefonoa:</strong> 601107126<br>
                 <strong>Email:</strong> sarrerak.eus@gmail.com<br>
               </p>
               <div class="social-links mt-3">
@@ -276,22 +286,22 @@
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>Links</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="index.php">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Servicios</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Términos</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Politica de cookies</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Política de privacidad</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="index.php">Etxea</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Zerbitzuak</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Terminoak</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Cookie politika</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Pribazitasun politika</a></li>
             </ul>
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Servicios</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Gestion integral de entradas.</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Sarreren kudeaketa integrala.</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Acomodación.</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Sonido.</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Iluminación.</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Personal técnico.</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Soinua.</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Argiztapena.</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Pertsonal teknikoa.</a></li>
             </ul>
           </div>
         </div>
@@ -305,7 +315,7 @@
       </div>
       <div class="credits">
 
-        Editado por Ibai Andreu.
+        Ibai Andreu editatua.
       </div>
     </div>
 

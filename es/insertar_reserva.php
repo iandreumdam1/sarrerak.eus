@@ -10,6 +10,7 @@
 <?php
 	session_start();
 
+	//Comprobar y recoger variables de variables de sesión y pasadas por URL.
 	if (isset($_GET["w2"])) {
 		$entradas = $_GET["w2"];
 	}
@@ -25,6 +26,23 @@
 	echo $evnt;
 	echo $idse;
 	echo $af_a;
+	//Parametros generación QR.
+	require '../assets/phpqrcode/qrlib.php';
+
+	$directorio = '../assets/img/qr_provisionales/';
+
+	if(!file_exists($directorio)){
+		mkdir($directorio);
+	}
+
+	$tamano = 10;
+	$nivel_precision = 'M';
+	$tamano_marco = 3;
+	
+
+
+
+	//Conexión con la BD.
 
 	$db_host="localhost";
 	$db_nombrebd="sarrerak";
@@ -49,27 +67,61 @@
 	
 	
 	for ($i = 0; $i < $entradas; $i++){
-		$consulta="INSERT INTO eventos_inscripcion(id_evento, id_usuario, id_sesion)
-		VALUES ('$evnt', '$usr', '$idse')";
-	  
-	  	$resultados=mysqli_query($conexion, $consulta);
 		
-		if($resultados==false){
-		  echo "Error en la consulta";
+
+		$consulta1="INSERT INTO eventos_inscripcion(id_evento, id_usuario, id_sesion)
+					VALUES ('$evnt', '$usr', '$idse')";
+		$resultados1=mysqli_query($conexion, $consulta1);
+		
+		$consulta2 ="SELECT id_entrada
+					FROM eventos_inscripcion 
+					ORDER BY id_entrada DESC
+					LIMIT 1";
+		$resultados2=mysqli_query($conexion, $consulta2);
+
+		while($fila=mysqli_fetch_array($resultados2)){
+			$nombre_qr = $directorio.$fila['id_entrada'].'.png';
+			$contenido = $fila['id_entrada'];
+			QRcode::png($contenido, $nombre_qr, $nivel_precision, $tamano, $tamano_marco);
+
+			$imagen = $_FILES[$nombre_qr]['tmp_name'];
+        	$imagen_contenido = addslashes(file_get_contents($nombre_qr));
+
+			$consulta3="UPDATE eventos_inscripcion
+			SET codigo_qr = '".$imagen_contenido."'
+			WHERE id_entrada = ".$fila['id_entrada']."";
+			$resultados3=mysqli_query($conexion, $consulta3);
+
+			unlink($nombre_qr);
+
+			if($resultados3==false){
+				echo "Error en la consulta de inserción de imagen.";
+			}
+			
+		}
+		if($resultados1==false){
+			echo "Error en la consulta de inserción.";
+		}
+
+		if($resultados2==false){
+		  echo "Error en la consulta de selección.";
 		}
 	
 	}
 	
-	$consulta2="UPDATE eventos
+	$consulta4="UPDATE eventos
 				SET  aforo_actual = '$af_a' 
 				WHERE id = '$evnt'";
 	
-	$resultados2=mysqli_query($conexion, $consulta2);	
-
+	$resultados4=mysqli_query($conexion, $consulta2);	
 	
 	mysqli_close($conexion);
 
-	echo "<script>window.location.href = 'entradas_reservadas.php'</script>";
+	echo "<script>window.location.href = 'enviar_entradas_email.php'</script>";
+	
+?>
+<?php
+	
 	
 ?>
 

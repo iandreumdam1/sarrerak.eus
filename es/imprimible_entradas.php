@@ -34,6 +34,19 @@
 
 <?php
   session_start();
+  if (isset($_SESSION["nombre_usuario_id"])) {
+    $id_evento=$_SESSION["id_evento"];
+    $id_usuario=$_SESSION["nombre_usuario_id"];
+  }
+  
+  if (isset($_GET["evn"])) {
+    $id_evento=$_GET["evn"];
+  }
+  if (isset($_GET["usr"])) {
+    $id_usuario=$_GET["usr"];
+  }
+  
+  
 
   $db_host="localhost";
 	$db_nombrebd="sarrerak";
@@ -69,7 +82,7 @@
                           FROM eventos_inscripcion
                           INNER JOIN eventos ON eventos_inscripcion.id_evento = eventos.id
                           INNER JOIN usuarios ON eventos_inscripcion.id_usuario = usuarios.nombre_usuario_id
-                          WHERE id_evento =".$_SESSION['id_evento']." AND id_usuario LIKE '".$_SESSION["nombre_usuario_id"]."' ";
+                          WHERE id_evento =".$id_evento." AND id_usuario LIKE '".$id_usuario."' ";
                 
                 $resultados=mysqli_query($conexion, $consulta);	
 
@@ -85,12 +98,13 @@
             </table id="imprimible">
             
               <?php
+                echo "Hola:";
                 
                 if($resultados==false){
                   echo "<br>Error en la consulta";
                   echo $resultados;
                 }else{
-                  echo $_SESSION["id_sesion"];
+                  //echo $_SESSION["id_sesion"];
                   
                   while($fila=mysqli_fetch_array($resultados)){
                     echo "<br><table frame='box' class='col-12'>";
@@ -104,7 +118,7 @@
                               <a>Fecha y hora: ".$fila['fecha']."</a><br>
                               <a>Nombre: ". $fila['nombre'] . ", ". $fila['apellido'] . "</a>
                             </td>
-                            <td style='width: 200px;'>Código QR".$fila['id_entrada']."</td>
+                            <td style='width: 200px;'><img src='ver_qr.php?id=".$fila['id_entrada']."' alt='Código QR".$fila['id_entrada']."' ></td>
                           </tr>";
                     echo "</table>";
                     

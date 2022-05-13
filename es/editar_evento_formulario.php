@@ -34,6 +34,11 @@
 
 <?php
 	session_start();
+
+  if (isset($_GET["w1"])) {
+    $_SESSION["id_evento"] = $_GET["w1"];
+  }
+
 ?>
 
 <body>
@@ -76,7 +81,24 @@
 	}
 
   $usr=$_SESSION["nombre_usuario_id"];
+
+
+  $db_host="localhost";
+	$db_nombrebd="sarrerak";
+	$db_usuario="root";
+	$db_contraseña="";
 	
+  $conexion=mysqli_connect($db_host,$db_usuario,$db_contraseña);
+	
+	if(mysqli_connect_errno()){
+		echo "Fallo al conectar con las Base de Datos";
+		exit();
+	}
+	
+	mysqli_select_db($conexion, $db_nombrebd) or die ("No se encuentra la Base de Datos");
+	
+	mysqli_set_charset($conexion,"utf-8");
+
 ?>
 
 
@@ -91,7 +113,27 @@
   </section>
 
   <main id="main">
+    <?php
+      $consulta="SELECT nombre, descripcion_breve, descripcion, aforo_total, fecha_evento
+      FROM eventos
+      WHERE id =".$_SESSION['id_evento']." AND usuario_creacion LIKE '".$_SESSION["nombre_usuario_id"]."' ";
 
+      $resultados=mysqli_query($conexion, $consulta);	
+
+      $nombre = "";
+      $descripcion_breve = "";
+      $descripcion = "";
+      $aforo_total = "";
+      $fecha = "";
+
+      while($fila=mysqli_fetch_array($resultados)){
+        $nombre = $fila["nombre"];
+        $descripcion_breve = $fila["descripcion_breve"];
+        $descripcion = $fila["descripcion"];
+        $aforo_total = $fila["aforo_total"];
+        $fecha = $fila["fecha_evento"];
+      }
+    ?>
 
     <!--Formulario de insertar eventos en la BD-->
     <section id="about" class="about">
@@ -104,22 +146,22 @@
             <div class="text-right"><button type="submit" style='background-color: #000000; color: #ffffff;' onclick="editar()">Editar un evento</button></div>
             <br>
               <div class="col-lg-12 mt-12 mt-lg-12" style="align:center;">
-                <form action="insertar_evento.php" method="post" role="form" enctype="multipart/form-data">
+                <form action="update_evento.php" method="post" role="form" enctype="multipart/form-data">
                   <div class="form">
                     <div class="form-group">
-                      <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del evento" data-rule="minlen:4" data-msg="Ponga un nombre del evento válido" required/>
+                      <input type="text" class="form-control" name="nombre" id="nombre" value="<?php echo $nombre ?>" data-rule="minlen:4" data-msg="Ponga un nombre del evento válido" required/>
                       <div class="validate"></div>
                     </div>
                   </div>
                   <div class="form">
                     <div class="form-group">
-                      <input type="text" class="form-control" name="descripcion_corta" id="descripcion_corta" placeholder="Breve descripción" data-rule="minlen:4" data-msg="Rellene este campo" required/>
+                      <input type="text" class="form-control" name="descripcion_corta" id="descripcion_corta" value="<?php echo $descripcion_breve ?>" data-rule="minlen:4" data-msg="Rellene este campo" required/>
                       <div class="validate"></div>
                     </div>
                     </div>
                   <div class="form">
                     <div class="form-group">
-                      <textarea class="form-control" name="descripcion" id="descripcion" rows="5" data-rule="required" data-msg="Rellene este campo" placeholder="Descripción del evento." required></textarea>
+                      <textarea class="form-control" name="descripcion" id="descripcion" rows="5" data-rule="required" data-msg="Rellene este campo" required><?php echo $descripcion ?></textarea>
                       <div class="validate"></div>
                     </div>
                   </div>
@@ -131,24 +173,22 @@
                     </div>
                   <div class="form">
                     <div class="form-group">
-                      <input type="number" class="form-control" name="aforo_total" id="aforo_total" placeholder="Aforo del evento" data-rule-required="true" data-msg="Rellene este campo" required/>
+                      <input type="number" class="form-control" name="aforo_total" id="aforo_total" value="<?php echo $aforo_total ?>" data-rule-required="true" data-msg="Rellene este campo" required/>
                       <div class="validate"></div>
                     </div>
                   </div>
                   <div class="form">
                     <div class="form-group">
-                      <input type="datetime-local" class="form-control" name="fecha_evento" id="fecha_evento" placeholder="Fecha del evento" data-rule-required="true" data-msg="Rellene este campo" required/>
+                      <input type="datetime-local" class="form-control" name="fecha_evento" id="fecha_evento" value="<?php echo $fecha ?>" data-rule-required="true" data-msg="Rellene este campo" required/>
                       <div class="validate"></div>
                     </div>
                   </div>
-                  <!--<div class="mb-3">
-                    <div class="loading">Loading</div>
-                    <div class="error-message"></div>
-                    <div class="sent-message">Tu mensaje ha sido enviado.</div>
-                  </div>-->
-                  <div class="text-center"><button type="submit" style='background-color: #000000; color: #ffffff;'>Crear evento</button></div>
+                  <div class="text-center"><button type="submit" style='background-color: #000000; color: #ffffff;'>Editar evento</button></div>
+                  
                   
                 </form>
+                <br>
+                <div class="text-center"><button type="submit" style='background-color: #ff0000; color: #ffffff;' onclick="eliminar()">Eliminar evento</button></div>
             
               </div>
               
@@ -161,12 +201,16 @@
         </div>
 
       </div>
-
+    </section>    
   </main>
 
   <script>
     function editar(){
       window.location = "eventos_editar.php";
+    }
+
+    function eliminar(){
+      window.location = "eliminar_evento.php";
     }
 
   </script>

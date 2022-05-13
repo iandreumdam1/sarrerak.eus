@@ -35,24 +35,27 @@
 <?php
   session_start();
 
+  if (isset($_GET["w1"])) {
+    $_SESSION["id_evento"] = $_GET["w1"];
+  }
+
 ?>
 
 
 
 <body>
 
-  <header id="header" class="fixed-top ">
+<header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-between">
 
       <h1 class="logo"><a href="index.php">SARRERAK<span>.</span>EUS</a></h1>
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li class="#"><a href="#.html">Servicios</a></li>
           <li class="#"><a href="crear_evento.php">Organizadores</a></li>
-		      <li class="#"><a href="#.html">Clientes</a></li>
+		      <li class="#"><a href="acomodadores_eventos.php">Acomodadores</a></li>
 		      <li class="#"><a href="eventos.php">Compra de entradas</a></li>
-          <li class="#"><a href="#.html">Euskara</a></li>
+          <li class="#"><a href="../eus/index.php">Euskara</a></li>
 
         </ul>
       </nav>
@@ -62,7 +65,7 @@
         if(!isset($_SESSION["nombre_usuario_id"])){
           echo "Iniciar Sesión";
         }else{
-          echo "Logeado como: " . $_SESSION["nombre_usuario_id"];
+          echo "Perfil de: " . $_SESSION["nombre_usuario_id"];
         }
         
 	    ?></a>
@@ -126,7 +129,8 @@
             <p class="font-italic">
             Se han enviado las entradas a tu correo            
             </p>
-             
+            
+            <div class="text-right"><button style='background-color: #000000; color: #ffffff;' onclick="redirigir()">Ver eventos reservados</button></div>
             </table id="imprimible">
             
               <?php
@@ -135,7 +139,7 @@
                   echo "<br>Error en la consulta";
                   echo $resultados;
                 }else{
-                  echo $_SESSION["id_sesion"];
+                  //echo $_SESSION["id_sesion"];
                   
                   while($fila=mysqli_fetch_array($resultados)){
                     echo "<br><table frame='box' class='col-12'>";
@@ -149,7 +153,7 @@
                               <a>Fecha y hora: ".$fila['fecha']."</a><br>
                               <a>Nombre: ". $fila['nombre'] . ", ". $fila['apellido'] . "</a>
                             </td>
-                            <td class='col-2'>Código QR".$fila['id_entrada']."</td>
+                            <td class='col-2'><img src='ver_qr.php?id=".$fila['id_entrada']."' alt='Código QR".$fila['id_entrada']."' ></img></td>
                           </tr>";
                     echo "</table>";
                     
@@ -166,6 +170,7 @@
               ?>
               <br>
               <button style='background-color: #000000; color: #ffffff;' onclick="imprimir()">Inprimir entradas</button>
+              
                
               <!--LA FUNCION TIENE QUE IR AQUÍ SI O SI SINO NO FUNCIONA-->
 
@@ -173,6 +178,10 @@
                 function imprimir(){
                   window.location = "imprimible_entradas.php";
                   
+                }
+
+                function redirigir(){
+                  window.location = "eventos_reservados.php";
                 }
               </script>
             <?php 

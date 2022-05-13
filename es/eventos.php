@@ -61,18 +61,17 @@
 
 <body>
 
-  <header id="header" class="fixed-top ">
+<header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-between">
 
       <h1 class="logo"><a href="index.php">SARRERAK<span>.</span>EUS</a></h1>
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li class="#"><a href="#.html">Servicios</a></li>
           <li class="#"><a href="crear_evento.php">Organizadores</a></li>
-		      <li class="#"><a href="#.html">Clientes</a></li>
+		      <li class="#"><a href="acomodadores_eventos.php">Acomodadores</a></li>
 		      <li class="#"><a href="eventos.php">Compra de entradas</a></li>
-          <li class="#"><a href="#.html">Euskara</a></li>
+          <li class="#"><a href="../eus/index.php">Euskara</a></li>
 
         </ul>
       </nav>
@@ -82,7 +81,7 @@
         if(!isset($_SESSION["nombre_usuario_id"])){
           echo "Iniciar Sesión";
         }else{
-          echo "Logeado como: " . $_SESSION["nombre_usuario_id"];
+          echo "Perfil de: " . $_SESSION["nombre_usuario_id"];
         }
         
 	    ?></a>

@@ -42,18 +42,17 @@
 
 <body>
 
-  <header id="header" class="fixed-top ">
+<header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-between">
 
       <h1 class="logo"><a href="index.php">SARRERAK<span>.</span>EUS</a></h1>
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li class="#"><a href="#.html">Servicios</a></li>
           <li class="#"><a href="crear_evento.php">Organizadores</a></li>
-		      <li class="#"><a href="#.html">Clientes</a></li>
+		      <li class="#"><a href="acomodadores_eventos.php">Acomodadores</a></li>
 		      <li class="#"><a href="eventos.php">Compra de entradas</a></li>
-          <li class="#"><a href="#.html">Euskara</a></li>
+          <li class="#"><a href="../eus/index.php">Euskara</a></li>
 
         </ul>
       </nav>
@@ -97,7 +96,7 @@
         <div class="col-xl-2 col-md-4 col-6 mt-4 mt-xl-0">
           <div class="icon-box">
             <i class="ri-database-2-line"></i>
-            <h3><a href="#contacto">Soporte técnico</a></h3>
+            <h3><a href="eventos_reservados.php">Eventos Reservados</a></h3>
           </div>
         </div>
         <div class="col-xl-2 col-md-4 col-6">

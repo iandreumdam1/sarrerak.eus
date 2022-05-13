@@ -33,8 +33,38 @@
 </head>
 
 <?php
-	session_start();
+  session_start();
+
+  if(!isset($_SESSION["nombre_usuario_id"])){
+		header("Location:iniciar_sesion.php"."?rp="."crear_evento.php");
+	}
+  if($_SESSION["tipo_usuario"] != 2){
+		header("Location:index.php"."?rp="."crear_evento.php");
+	}
+
+  $db_host="localhost";
+	$db_nombrebd="sarrerak";
+	$db_usuario="root";
+	$db_contraseña="";
+	
+  $conexion=mysqli_connect($db_host,$db_usuario,$db_contraseña);
+	
+	if(mysqli_connect_errno()){
+		echo "Fallo al conectar con las Base de Datos";
+		exit();
+	}
+	
+	mysqli_select_db($conexion, $db_nombrebd) or die ("No se encuentra la Base de Datos");
+	
+	mysqli_set_charset($conexion,"utf-8");
 ?>
+
+<script>
+    function redirigir(id){      
+    
+      window.location.href = "editar_evento_formulario.php" + "?w1=" + id; 
+    }
+  </script>
 
 <body>
 
@@ -66,96 +96,70 @@
     </div>
   </header>
 
-<?php
-	
-	if(!isset($_SESSION["nombre_usuario_id"])){
-		header("Location:iniciar_sesion.php"."?rp="."crear_evento.php");
-	}
-  if($_SESSION["tipo_usuario"] != 2){
-		header("Location:index.php"."?rp="."crear_evento.php");
-	}
 
-  $usr=$_SESSION["nombre_usuario_id"];
-	
-?>
-
-
-
-  <section id="hero" class="d-flex align-items-center justify-content-center" style="height:250px;">
   
-    <h1>Crea un evento, 
-    <?php
-       echo $_SESSION["nombre_usuario_id"];
-       
-	  ?>.</h1>
+  
+  <section id="hero" style ="height:30px" class="d-flex align-items-center justify-content-center">
+    
   </section>
 
   <main id="main">
 
 
-    <!--Formulario de insertar eventos en la BD-->
     <section id="about" class="about">
       <div class="container" data-aos="fade-up">
         <div class="row">
-          <div class="col-lg-12 pt-12 pt-lg-12 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
-            <h3>Crear un evento.</h3>
+          <div class="col-lg-12 pt-4 pt-lg-0 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
+            <h3>Edición de eventos.</h3>
             <p class="font-italic">
+              <!--Insertar aquí el for con los eventos próximos.-->
+
               
-            <div class="text-right"><button type="submit" style='background-color: #000000; color: #ffffff;' onclick="editar()">Editar un evento</button></div>
-            <br>
-              <div class="col-lg-12 mt-12 mt-lg-12" style="align:center;">
-                <form action="insertar_evento.php" method="post" role="form" enctype="multipart/form-data">
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del evento" data-rule="minlen:4" data-msg="Ponga un nombre del evento válido" required/>
-                      <div class="validate"></div>
-                    </div>
-                  </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="text" class="form-control" name="descripcion_corta" id="descripcion_corta" placeholder="Breve descripción" data-rule="minlen:4" data-msg="Rellene este campo" required/>
-                      <div class="validate"></div>
-                    </div>
-                    </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <textarea class="form-control" name="descripcion" id="descripcion" rows="5" data-rule="required" data-msg="Rellene este campo" placeholder="Descripción del evento." required></textarea>
-                      <div class="validate"></div>
-                    </div>
-                  </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="file" class="form-control" name="imagen" id="imagen" placeholder="Imagen del evento" required/>
-                      <div class="validate"></div>
-                    </div>
-                    </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="number" class="form-control" name="aforo_total" id="aforo_total" placeholder="Aforo del evento" data-rule-required="true" data-msg="Rellene este campo" required/>
-                      <div class="validate"></div>
-                    </div>
-                  </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="datetime-local" class="form-control" name="fecha_evento" id="fecha_evento" placeholder="Fecha del evento" data-rule-required="true" data-msg="Rellene este campo" required/>
-                      <div class="validate"></div>
-                    </div>
-                  </div>
-                  <!--<div class="mb-3">
-                    <div class="loading">Loading</div>
-                    <div class="error-message"></div>
-                    <div class="sent-message">Tu mensaje ha sido enviado.</div>
-                  </div>-->
-                  <div class="text-center"><button type="submit" style='background-color: #000000; color: #ffffff;'>Crear evento</button></div>
-                  
-                </form>
+      </p>
+             
+            </table>
             
-              </div>
-              
-            </p>
-            <?php
-              
-            ?>
+              <?php
+                $DateTime = date('Y-m-d h:i:s a', time());  
+
+                echo "La fecha y hora actual es $DateTime.";
+
+                $consulta="SELECT id, nombre, descripcion_breve, fecha_evento
+                FROM eventos
+                WHERE fecha_evento > '$DateTime' AND usuario_creacion = '".$_SESSION["nombre_usuario_id"]."'ORDER BY fecha_evento ASC";
+                
+                $resultados=mysqli_query($conexion, $consulta);	
+
+                if($resultados==false){
+                  echo "<br>Error en la consulta";
+                  echo $resultados;
+                }else{
+                  echo "<br><table>";
+                  while($fila=mysqli_fetch_array($resultados)){
+                    echo "<tr style='height: 250px'>
+                          <td class='col-4'><img src='ver_imagen.php?id=".$fila['id']."' alt='Imagen del evento.'></img></td>
+                          <td class='col-8'>
+                            <br><strong>" . $fila['nombre'] . "</strong><br>
+                            <br>". $fila['descripcion_breve'] ."
+                            <br>". $fila['fecha_evento'] ."
+                            <br>
+                            <button style='background-color: #000000; color: #ffffff; margin-top: 20px;' onclick='redirigir(" . $fila['id'] . ")'>Editar evento</button>
+                            <hr>
+                          </td>
+                          
+                        </tr>";
+                  }
+                  
+                  echo "</table>";
+                  
+                  
+
+                }
+                
+                mysqli_close($conexion);
+                
+              ?>
+            
            
           </div>
         </div>
@@ -164,12 +168,7 @@
 
   </main>
 
-  <script>
-    function editar(){
-      window.location = "eventos_editar.php";
-    }
-
-  </script>
+ 
 
   <footer id="footer">
     <div class="footer-top">
@@ -242,6 +241,8 @@
 
   <a href="#" class="back-to-top"><i class="ri-arrow-up-line"></i></a>
   <div id="preloader"></div>
+
+  
 
 
   <script src="../assets/vendor/jquery/jquery.min.js"></script>

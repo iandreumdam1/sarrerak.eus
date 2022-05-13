@@ -32,13 +32,11 @@
 
 </head>
 
-<?php
-	session_start();
-?>
+
 
 <body>
 
-<header id="header" class="fixed-top ">
+  <header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-between">
 
       <h1 class="logo"><a href="index.php">SARRERAK<span>.</span>EUS</a></h1>
@@ -53,123 +51,84 @@
         </ul>
       </nav>
 
-      <a href="pagina_personal.php" class="inicio_sesion scrollto"><?php
-		    
-        if(!isset($_SESSION["nombre_usuario_id"])){
-          echo "Iniciar Sesión";
-        }else{
-          echo "Perfil de: " . $_SESSION["nombre_usuario_id"];
-        }
-        
-	    ?></a>
+      <a href="pagina_personal.php" class="inicio_sesion scrollto">Iniciar Sesión.</a>
 
     </div>
   </header>
 
-<?php
-	
-	if(!isset($_SESSION["nombre_usuario_id"])){
-		header("Location:iniciar_sesion.php"."?rp="."crear_evento.php");
-	}
-  if($_SESSION["tipo_usuario"] != 2){
-		header("Location:index.php"."?rp="."crear_evento.php");
-	}
+  <section id="hero" class="d-flex align-items-center justify-content-center">
+    <div class="container" data-aos="fade-up">
 
-  $usr=$_SESSION["nombre_usuario_id"];
-	
-?>
-
-
-
-  <section id="hero" class="d-flex align-items-center justify-content-center" style="height:250px;">
-  
-    <h1>Crea un evento, 
-    <?php
-       echo $_SESSION["nombre_usuario_id"];
-       
-	  ?>.</h1>
-  </section>
-
-  <main id="main">
-
-
-    <!--Formulario de insertar eventos en la BD-->
-    <section id="about" class="about">
-      <div class="container" data-aos="fade-up">
-        <div class="row">
-          <div class="col-lg-12 pt-12 pt-lg-12 order-2 order-lg-1 content" data-aos="fade-right" data-aos-delay="100">
-            <h3>Crear un evento.</h3>
-            <p class="font-italic">
-              
-            <div class="text-right"><button type="submit" style='background-color: #000000; color: #ffffff;' onclick="editar()">Editar un evento</button></div>
-            <br>
-              <div class="col-lg-12 mt-12 mt-lg-12" style="align:center;">
-                <form action="insertar_evento.php" method="post" role="form" enctype="multipart/form-data">
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del evento" data-rule="minlen:4" data-msg="Ponga un nombre del evento válido" required/>
-                      <div class="validate"></div>
-                    </div>
-                  </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="text" class="form-control" name="descripcion_corta" id="descripcion_corta" placeholder="Breve descripción" data-rule="minlen:4" data-msg="Rellene este campo" required/>
-                      <div class="validate"></div>
-                    </div>
-                    </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <textarea class="form-control" name="descripcion" id="descripcion" rows="5" data-rule="required" data-msg="Rellene este campo" placeholder="Descripción del evento." required></textarea>
-                      <div class="validate"></div>
-                    </div>
-                  </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="file" class="form-control" name="imagen" id="imagen" placeholder="Imagen del evento" required/>
-                      <div class="validate"></div>
-                    </div>
-                    </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="number" class="form-control" name="aforo_total" id="aforo_total" placeholder="Aforo del evento" data-rule-required="true" data-msg="Rellene este campo" required/>
-                      <div class="validate"></div>
-                    </div>
-                  </div>
-                  <div class="form">
-                    <div class="form-group">
-                      <input type="datetime-local" class="form-control" name="fecha_evento" id="fecha_evento" placeholder="Fecha del evento" data-rule-required="true" data-msg="Rellene este campo" required/>
-                      <div class="validate"></div>
-                    </div>
-                  </div>
-                  <!--<div class="mb-3">
-                    <div class="loading">Loading</div>
-                    <div class="error-message"></div>
-                    <div class="sent-message">Tu mensaje ha sido enviado.</div>
-                  </div>-->
-                  <div class="text-center"><button type="submit" style='background-color: #000000; color: #ffffff;'>Crear evento</button></div>
-                  
-                </form>
-            
-              </div>
-              
-            </p>
-            <?php
-              
-            ?>
-           
-          </div>
+      <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
+        <div class="col-xl-6 col-lg-8">
+          <h1>¡Registrate<span>!</span></h1>
         </div>
+      </div>
+      <?php
+          if(isset($_GET["error"])&& $_GET["error"]==1){
+                  
+           echo "<h2 class=\"error\" style='color: red;' >Ya existe un usuario <br>con ese correo electrónico.</h2><br>";
 
+          }
+          else if(isset($_GET["error"])&& $_GET["error"]==2){
+                  
+            echo "<h2 class=\"error\" style='color: red;' >Ya existe un usuario <br>con ese nombre de usuario.</h2><br>";
+ 
+           }
+        ?>
+		
+      <div class="row mt-5 justify-content-center" data-aos="zoom-in" data-aos-delay="250">
+           <form action="Insertar_Registro.php" method="post">
+              <div class="form-row">
+                <div class="form-group">
+                  <input type="user" class="form-control" name="apellido1" id="apellido1" placeholder="Primer Apellido" data-rule="user" data-msg="Ponga un apellido válido" required/>
+                  <div class="validate"></div>
+                </div>
+              </div>
+			  <div class="form-row">
+                <div class="form-group">
+                  <input type="user" class="form-control" name="apellido2" id="apellido2" placeholder="Segundo Apellido" data-rule="user" data-msg="Ponga un apellido válido" required/>
+                  <div class="validate"></div>
+                </div>
+              </div>
+			  <div class="form-row">
+                <div class="form-group">
+                  <input type="user" class="form-control" name="nombre" id="nombre" placeholder="Nombre" data-rule="user" data-msg="Ponga un nombre válido" required/>
+                  <div class="validate"></div>
+                </div>
+              </div>
+			  <div class="form-row">
+                <div class="form-group">
+                  <input type="user" class="form-control" name="correo" id="correo" placeholder="Correo electrónico" data-rule="user" data-msg="Ponga un correo válido" required/>
+                  <div class="validate"></div>
+                </div>
+              </div>
+			  <div class="form-row">
+                <div class="form-group">
+                  <input type="user" class="form-control" name="login" id="login" placeholder="Nombre de Usuario" data-rule="user" data-msg="Ponga un usuario válido" required/>
+                  <div class="validate"></div>
+                </div>
+              </div>
+			  <div class="form-row">
+              <div class="form-group">
+                <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" data-rule="minlen:4" data-msg="Rellene este campo" required/>
+                <div class="validate"></div>
+              </div>
+			  </div>
+        
+        <div class="text-center">
+          <button type="submit" class="inicio_sesion scrollto"style="background-color: transparent;">¡Registrate<span>!</span></button>
+        </div><br><br>
+			  <a href="iniciar_sesion.php">¡Iniciar Sesión!</a><br>
+			  <a href="cambiar_contrasena.php">¡Has olvidado tu contraseña!</a>
+            </form>
+        
+          </div>
       </div>
 
-  </main>
+    </div>
+  </section>
 
-  <script>
-    function editar(){
-      window.location = "eventos_editar.php";
-    }
-
-  </script>
 
   <footer id="footer">
     <div class="footer-top">

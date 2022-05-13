@@ -38,23 +38,25 @@
   if (isset($_GET["rp"])) {
     $_SESSION["redirigir_pagina"] = $_GET["rp"];
   }
+  else{
+    $_SESSION["redirigir_pagina"] = "pagina_personal.php";
+  }
 ?>
 
 
 <body>
 
-  <header id="header" class="fixed-top ">
+<header id="header" class="fixed-top ">
     <div class="container d-flex align-items-center justify-content-between">
 
       <h1 class="logo"><a href="index.php">SARRERAK<span>.</span>EUS</a></h1>
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li class="#"><a href="#.html">Servicios</a></li>
           <li class="#"><a href="crear_evento.php">Organizadores</a></li>
-		      <li class="#"><a href="#.html">Clientes</a></li>
+		      <li class="#"><a href="acomodadores_eventos.php">Acomodadores</a></li>
 		      <li class="#"><a href="eventos.php">Compra de entradas</a></li>
-          <li class="#"><a href="#.html">Euskara</a></li>
+          <li class="#"><a href="../eus/index.php">Euskara</a></li>
 
         </ul>
       </nav>
@@ -64,14 +66,13 @@
         if(!isset($_SESSION["nombre_usuario_id"])){
           echo "Iniciar Sesión";
         }else{
-          echo "Logeado como: " . $_SESSION["nombre_usuario_id"];
+          echo "Perfil de: " . $_SESSION["nombre_usuario_id"];
         }
         
 	    ?></a>
 
     </div>
   </header>
-
 <body>
 
 
@@ -107,7 +108,7 @@
               <?php
                 if(isset($_GET["error"])&& $_GET["error"]==1){
                   
-                  echo "<h2 class=\"error\">Login incorrecto.</h2><br>";
+                  echo "<h2 class=\"error\" style='color: red;' >Login incorrecto.</h2><br>";
 
                   }
               ?>
@@ -115,7 +116,7 @@
               <div class="text-center">
                 <button type="submit" class="inicio_sesion scrollto"style="background-color: transparent;">Iniciar sesión</button>
               </div><br><br>
-              <a href="registro.html">¡Registrate!</a><br>
+              <a href="registro.php">¡Registrate!</a><br>
               <a href="cambiar_contrasena.php">¡Has olvidado tu contraseña!</a>
             </form>
         
